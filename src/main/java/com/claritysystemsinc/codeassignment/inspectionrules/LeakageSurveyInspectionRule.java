@@ -16,9 +16,9 @@ public class LeakageSurveyInspectionRule implements InspectionRule {
 
     @Override
     public String inspectionRule(String requiredTasks) {
-        Stack<String> stack = parseRequiredTasks.getData(requiredTasks);
-        log.info("#got stack:"+stack);
-        return stack.toString();
+        String rules = parseRequiredTasks.getRules(requiredTasks);
+        log.info("#Got rules:"+rules);
+        return rules;
     }
 
     @Override

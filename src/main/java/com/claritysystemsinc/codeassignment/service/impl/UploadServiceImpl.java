@@ -86,14 +86,14 @@ public class UploadServiceImpl implements UploadService {
                                     InspectionType.getInspectionType(xssfSheet.getRow(i).getCell(0).toString()));
                             String rule = inspectionRule.inspectionRule(xssfSheet.getRow(i).getCell(1).toString());
                             log.info("#got the rule from the inspection engine");
-                            InspectionBean inspectionBean = new InspectionBean();
-                            inspectionBean.setInspection(xssfSheet.getRow(i).getCell(0).toString());
-                            inspectionBean.setRequiredTasks(xssfSheet.getRow(i).getCell(1).toString());
-                            inspectionBean.setRules(rule);
+                            InspectionBean inspectionBean = new InspectionBean(xssfSheet.getRow(i).getCell(0).toString(),
+                                    xssfSheet.getRow(i).getCell(1).toString(), rule);
                             listOfInspections.add(inspectionBean);
-                        } catch (Exception e) {
-                            log.error("Needs to be implemented inspection rule" + e);
+                        } catch (NullPointerException e) {
+                            log.error("There is no inspection rule define for a given " + xssfSheet.getRow(i).getCell(0).toString());
                         }
+                    } else {
+                        log.info("#It is an empty row");
                     }
                 }
                 log.info("All Rows are completed");
@@ -105,6 +105,9 @@ public class UploadServiceImpl implements UploadService {
         return listOfInspections;
     }
 
+    /**
+     * To check whether row is empty or not
+     **/
     private boolean checkIfRowIsEmpty(Row row) {
         if (row == null) {
             return true;

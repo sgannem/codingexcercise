@@ -16,10 +16,9 @@ public class PPGasInspectionRule implements InspectionRule {
 
     @Override
     public String inspectionRule(String requiredTasks) {
-        Stack<String> stack = parseRequiredTasks.getData(requiredTasks);
-        log.info("#got stack:"+stack);
-        String s = "{\"missing\":[\"016G\",\"060G\"]}";
-        return s;
+        String rules = parseRequiredTasks.getRules(requiredTasks);
+        log.info("#Got rules:"+rules);
+        return rules;
     }
 
     @Override
