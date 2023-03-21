@@ -1,6 +1,6 @@
 package com.claritysystemsinc.codeassignment.inspectionrules;
 
-import com.claritysystemsinc.codeassignment.utils.ParsingColumn;
+import com.claritysystemsinc.codeassignment.utils.ParseRequiredTasks;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -12,11 +12,11 @@ import java.util.Stack;
 @RequiredArgsConstructor
 public class CorrosionSurveyInspectionRule implements InspectionRule {
 
-    private final ParsingColumn parsingColumn;
+    private final ParseRequiredTasks parseRequiredTasks;
 
     @Override
     public String inspectionRule(String requiredTasks) {
-        Stack<String> stack = parsingColumn.getData(requiredTasks);
+        Stack<String> stack = parseRequiredTasks.getData(requiredTasks);
         log.info("#got stack:"+stack);
         return stack.toString();
     }

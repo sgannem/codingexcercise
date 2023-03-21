@@ -7,7 +7,10 @@ import com.claritysystemsinc.codeassignment.inspectionrules.InspectionType;
 import com.claritysystemsinc.codeassignment.service.UploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -30,8 +33,8 @@ public class UploadServiceImpl implements UploadService {
 
     @Override
     public void upload(MultipartFile file) {
-        log.info("upload processing file");
-        List<InspectionBean> listOfInspections = upload1(file);
+        log.info("upload method is called");
+        List<InspectionBean> listOfInspections = processUploadedFile(file);
         if (!listOfInspections.isEmpty()) {
             log.info("#writing into xlsx file");
             writeExcelFile(file, listOfInspections);
@@ -62,7 +65,7 @@ public class UploadServiceImpl implements UploadService {
         }
     }
 
-    private List<InspectionBean> upload1(MultipartFile file) {
+    private List<InspectionBean> processUploadedFile(MultipartFile file) {
         List<InspectionBean> listOfInspections = new ArrayList<>();
         try {
             File requestedFile = File.createTempFile("Finance-Upload-", Objects.requireNonNull(file.getOriginalFilename()));
@@ -75,8 +78,7 @@ public class UploadServiceImpl implements UploadService {
                         continue;
                     }
                     log.info("# Row number:" + (i + 1));
-                    if (!Objects.isNull(xssfSheet.getRow(i).getCell(0)) &&
-                            !Objects.isNull(xssfSheet.getRow(i).getCell(1))) {
+                    if (!checkIfRowIsEmpty(xssfSheet.getRow(i))) {
                         log.info("#cols 0:" + xssfSheet.getRow(i).getCell(0));
                         log.info("#cols 1:" + xssfSheet.getRow(i).getCell(1));
                         try {
@@ -94,12 +96,28 @@ public class UploadServiceImpl implements UploadService {
                         }
                     }
                 }
-                log.info(" Row is completed");
+                log.info("All Rows are completed");
             }
         } catch (IOException e) {
             log.error("Error occurred during xlsx file read" + e);
         }
         log.info("list of inspection beans:" + listOfInspections);
         return listOfInspections;
+    }
+
+    private boolean checkIfRowIsEmpty(Row row) {
+        if (row == null) {
+            return true;
+        }
+        if (row.getLastCellNum() <= 0) {
+            return true;
+        }
+        for (int cellNum = row.getFirstCellNum(); cellNum < row.getLastCellNum(); cellNum++) {
+            Cell cell = row.getCell(cellNum);
+            if (cell != null && cell.getCellType() != CellType.BLANK && StringUtils.isNotBlank(cell.toString())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

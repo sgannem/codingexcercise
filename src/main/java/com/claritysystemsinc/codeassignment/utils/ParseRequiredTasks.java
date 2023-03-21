@@ -7,14 +7,14 @@ import java.util.Stack;
 
 @Service
 @Slf4j
-public class ParsingColumn {
-
+public class ParseRequiredTasks {
     public Stack<String> getData(String text) {
         Stack<String> s = new Stack<>();
         int cnt1 = 0;
         int cnt2 = 0;
         for (char c : text.toCharArray()) {
             switch (c) {
+                case ',':
                 case '&':
                     s.push(text.substring(cnt1, cnt2));
                     s.push("&");
