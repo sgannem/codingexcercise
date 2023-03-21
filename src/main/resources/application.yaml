@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: clarity-code-assignment
+  profiles:
+    active:
+server:
+  port: 9081
