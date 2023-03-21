@@ -17,4 +17,8 @@ mvn clean install
 java -jar target/codeassignment-0.0.1-SNAPSHOT.jar
 ```
 
+### swagger endpoint.
+* http://localhost:9081/swagger-ui/index.html
+
+### References
 * https://stackoverflow.com/questions/74701738/spring-boot-3-springdoc-openapi-ui-doesnt-work
