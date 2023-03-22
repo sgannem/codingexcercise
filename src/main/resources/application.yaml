@@ -1,5 +1,12 @@
 spring:
   application:
     name: clarity-code-assignment
+
+  servlet:
+    multipart:
+      resolve-lazily: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 server:
   port: 9081

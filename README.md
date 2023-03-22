@@ -84,3 +84,4 @@ algorithm String getRules(String requiredTasks) {
 For further reference, please consider the following sections:
 #### References
 * https://stackoverflow.com/questions/74701738/spring-boot-3-springdoc-openapi-ui-doesnt-work
+* https://www.youtube.com/watch?v=oynNU7D2w3Y

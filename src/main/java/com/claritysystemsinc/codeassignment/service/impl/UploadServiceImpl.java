@@ -1,6 +1,7 @@
 package com.claritysystemsinc.codeassignment.service.impl;
 
 import com.claritysystemsinc.codeassignment.common.entity.InspectionBean;
+import com.claritysystemsinc.codeassignment.exception.ServiceException;
 import com.claritysystemsinc.codeassignment.inspectionrules.InspectionRule;
 import com.claritysystemsinc.codeassignment.inspectionrules.InspectionRuleEngine;
 import com.claritysystemsinc.codeassignment.inspectionrules.InspectionType;
@@ -20,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,16 +33,18 @@ public class UploadServiceImpl implements UploadService {
     private final InspectionRuleEngine inspectionRuleEngine;
 
     @Override
-    public void upload(MultipartFile file) {
+    public boolean upload(MultipartFile file) {
+        boolean uploadStatus = Boolean.FALSE;
         log.info("upload method is called");
         List<InspectionBean> listOfInspections = processUploadedFile(file);
         if (!listOfInspections.isEmpty()) {
             log.info("#writing into xlsx file");
             writeExcelFile(file, listOfInspections);
+            uploadStatus = Boolean.TRUE;
         } else {
             log.info("no list of inspections. hence no need to write xlsx file");
         }
-
+        return uploadStatus;
     }
 
     private void writeExcelFile(MultipartFile file, List<InspectionBean> listOfInspections) {
@@ -60,7 +62,9 @@ public class UploadServiceImpl implements UploadService {
                 cell.setCellType(CellType.STRING);
                 cell.setCellValue(listOfInspections.get(i).getRules());
             }
-            FileOutputStream fos = new FileOutputStream("EWNworkstreamAutomationOutput.xlsx");
+            File outFile = new File("EWNworkstreamAutomationOutput.xlsx");
+            log.info("#File absolute path:"+outFile.getAbsolutePath());
+            FileOutputStream fos = new FileOutputStream(outFile);
             xssfWorkbook.write(fos);
             fos.close();
         } catch (Exception e) {
@@ -101,8 +105,9 @@ public class UploadServiceImpl implements UploadService {
                 }
                 log.info("All Rows are completed");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             log.error("Error occurred during xlsx file read" + e);
+            throw new ServiceException("invalid xlsx file");
         }
         log.info("list of inspection beans:" + listOfInspections);
         return listOfInspections;
