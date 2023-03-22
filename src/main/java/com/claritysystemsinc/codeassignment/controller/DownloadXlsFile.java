@@ -31,10 +31,9 @@ public class DownloadXlsFile extends BaseController {
     public ResponseEntity<Resource> downloadFile(@PathParam("filename") String fileName) {
         log.info("#Got fileName:"+fileName);
         AtomicReference<Path> foundFile = new AtomicReference<>();
-        Path path = Paths.get("/Users/srinivasu.gannem/Documents/srini/mypractices/clarity-identity/githubcode/codingexcercise");
+        Path path = Paths.get(System.getProperty("java.io.tmpdir"));
         try {
             Files.list(path).forEach(file -> {
-                log.info("#file.getFileName():"+file.getFileName());
                 if(file.getFileName().toString().equalsIgnoreCase(fileName)) {
                     foundFile.set(file);
                     return;

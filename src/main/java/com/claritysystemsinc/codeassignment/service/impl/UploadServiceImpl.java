@@ -62,7 +62,7 @@ public class UploadServiceImpl implements UploadService {
                 cell.setCellType(CellType.STRING);
                 cell.setCellValue(listOfInspections.get(i).getRules());
             }
-            File outFile = new File("EWNworkstreamAutomationOutput.xlsx");
+            File outFile = new File(System.getProperty("java.io.tmpdir"), "EWNworkstreamAutomationOutput.xlsx");
             log.info("#File absolute path:"+outFile.getAbsolutePath());
             FileOutputStream fos = new FileOutputStream(outFile);
             xssfWorkbook.write(fos);
