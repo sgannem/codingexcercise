@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
@@ -51,7 +52,9 @@ public class UploadServiceImpl implements UploadService {
             XSSFCell cell3 = xssfSheet.getRow(0).createCell(2);
             cell3.setCellType(CellType.STRING);
             cell3.setCellValue("Rules");
-            cell3.setCellStyle(xssfSheet.getRow(0).getCell(1).getCellStyle());
+            CellStyle cellStyle = xssfSheet.getRow(0).getCell(1).getCellStyle();
+            cell3.setCellStyle(cellStyle);
+            xssfSheet.setColumnWidth(2, 25 * 700);
             for (int i = 0; i < listOfInspections.size(); i++) {
                 XSSFCell cell = xssfSheet.getRow(i + 1).createCell(2);
                 cell.setCellType(CellType.STRING);
