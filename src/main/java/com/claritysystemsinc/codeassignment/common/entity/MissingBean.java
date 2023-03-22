@@ -1,4 +1,4 @@
-package com.claritysystemsinc.codeassignment.utils;
+package com.claritysystemsinc.codeassignment.common.entity;
 
 import lombok.Data;
 
