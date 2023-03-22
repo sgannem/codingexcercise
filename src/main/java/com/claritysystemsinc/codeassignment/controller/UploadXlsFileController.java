@@ -4,8 +4,6 @@ import com.claritysystemsinc.codeassignment.common.dto.ResponseDto;
 import com.claritysystemsinc.codeassignment.service.UploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.functions.T;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-public class UploadXlsFile extends BaseController {
+public class UploadXlsFileController extends BaseController {
 
     final private UploadService uploadService;
 

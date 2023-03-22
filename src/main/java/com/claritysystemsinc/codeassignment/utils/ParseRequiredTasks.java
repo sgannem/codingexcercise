@@ -110,34 +110,52 @@ public class ParseRequiredTasks {
         }
 
         if(missingListBean.size()>0 && missingSomeListBeans.size()>0) {
-            MissingBean missingBean = new MissingBean();
-            missingBean.setMissing(missingListBean);
-            MissingSomeBean missingSomeBean = new MissingSomeBean();
-            ArrayList<Object> arrayList1 = new ArrayList<>();
-            arrayList1.add("1");
-            missingSomeListBeans.add("dummy");
-            arrayList1.add(missingSomeListBeans);
-            missingSomeBean.setMissingSome(arrayList1);
-            CombinationBean combinationBean = new CombinationBean();
-            ArrayList<Object> arrayList3 = new ArrayList<>();
-            arrayList3.add(missingSomeBean);
-            arrayList3.add(missingBean);
-            arrayList3.add("OK");
-            combinationBean.setMyIf(arrayList3);
-            rules = convertToJsonString(combinationBean);
+            rules = getCombinedRulesString(missingListBean, missingSomeListBeans);
         } else if(missingListBean.size()>0) {
-            MissingBean missingBean = new MissingBean();
-            missingBean.setMissing(missingListBean);
-            rules = convertToJsonString(missingBean);
+            rules = getMissingRulesString(missingListBean);
         } else if(missingSomeListBeans.size()>0) {
-            MissingSomeBean missingSomeBean = new MissingSomeBean();
-            ArrayList<Object> arrayList1 = new ArrayList<>();
-            arrayList1.add("1");
-            missingSomeListBeans.add("dummy");
-            arrayList1.add(missingSomeListBeans);
-            missingSomeBean.setMissingSome(arrayList1);
-            rules = convertToJsonString(missingSomeBean);
+            rules = getMissingSomeRulesString(missingSomeListBeans);
         }
+        return rules;
+    }
+
+    private String getMissingSomeRulesString(ArrayList<String> missingSomeListBeans) {
+        String rules;
+        MissingSomeBean missingSomeBean = new MissingSomeBean();
+        ArrayList<Object> arrayList1 = new ArrayList<>();
+        arrayList1.add("1");
+        missingSomeListBeans.add("dummy");
+        arrayList1.add(missingSomeListBeans);
+        missingSomeBean.setMissingSome(arrayList1);
+        rules = convertToJsonString(missingSomeBean);
+        return rules;
+    }
+
+    private String getMissingRulesString(ArrayList<String> missingListBean) {
+        String rules;
+        MissingBean missingBean = new MissingBean();
+        missingBean.setMissing(missingListBean);
+        rules = convertToJsonString(missingBean);
+        return rules;
+    }
+
+    private String getCombinedRulesString(ArrayList<String> missingListBean, ArrayList<String> missingSomeListBeans) {
+        String rules;
+        MissingBean missingBean = new MissingBean();
+        missingBean.setMissing(missingListBean);
+        MissingSomeBean missingSomeBean = new MissingSomeBean();
+        ArrayList<Object> arrayList1 = new ArrayList<>();
+        arrayList1.add("1");
+        missingSomeListBeans.add("dummy");
+        arrayList1.add(missingSomeListBeans);
+        missingSomeBean.setMissingSome(arrayList1);
+        CombinationBean combinationBean = new CombinationBean();
+        ArrayList<Object> arrayList3 = new ArrayList<>();
+        arrayList3.add(missingSomeBean);
+        arrayList3.add(missingBean);
+        arrayList3.add("OK");
+        combinationBean.setMyIf(arrayList3);
+        rules = convertToJsonString(combinationBean);
         return rules;
     }
 

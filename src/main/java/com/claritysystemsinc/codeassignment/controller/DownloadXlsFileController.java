@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-public class DownloadXlsFile extends BaseController {
+public class DownloadXlsFileController extends BaseController {
 
     final private UploadService uploadService;
 

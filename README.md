@@ -14,7 +14,7 @@ java -jar target/codeassignment-0.0.1-SNAPSHOT.jar
 ```
 
 ### swagger endpoint.
-* http://localhost:9081/swagger-ui/index.html
+* http://localhost:9081/swagger-ui.html
 
 ### Sample curl command(s)
 
@@ -26,7 +26,13 @@ curl -X 'GET' \
 ```
 #### ping api response
 ```
-pong
+{
+  "code": "CSI_0000",
+  "data": null,
+  "message": "pong",
+  "timestamp": 1679484129691,
+  "errorData": null
+}
 ```
 
 #### upload api request
@@ -40,8 +46,34 @@ curl -X 'POST' \
 ```
 #### upload api response
 ```
-File processed successfully...
+{
+  "code": "CSI_0000",
+  "data": null,
+  "message": "successfully uploaded file",
+  "timestamp": 1679484198068,
+  "errorData": null
+}
+
 ```
+
+#### download api request
+```
+curl -X 'GET' \
+  'http://localhost:9081/downloadFile/{filename}?fileName=EWNworkstreamAutomationOutput.xlsx' \
+  -H 'accept: */*'
+```
+
+#### download api response
+```
+ accept-ranges: bytes 
+ connection: keep-alive 
+ content-disposition: attachment; filename="EWNworkstreamAutomationOutput.xlsx" 
+ content-length: 7668 
+ content-type: application/octet-stream 
+ date: Wed,22 Mar 2023 11:34:52 GMT 
+ keep-alive: timeout=60 
+```
+
 
 #### Algorithm to parse required tasks and generate rules.
 algorithm String getRules(String requiredTasks) {
